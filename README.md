@@ -1,7 +1,7 @@
 # ewt360
 本仓库用于存放研究ewt360.com的文件  
   
-progress_upload.py文件用于刷e网通假期课程进度  
+## progress_upload.py文件用于刷e网通假期课程进度  
 ##使用方法：  
 #1.人工登录网站ewt360.com  
 #2.按F12找到cookie选项  
