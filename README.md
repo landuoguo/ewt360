@@ -8,7 +8,7 @@
 ## 使用说明  
 ### progress_upload.py文件用于刷e网通假期课程进度  
 * 使用方法：  
-#1.人工登录网站ewt360.com  
+#1.人工登录网站[ewt360.com](https://ewt360.com)  
 #2.按F12找到cookie选项  
 #3.从中找到userid和token值并复制到程序相应位置  
 #4.运行程序  
