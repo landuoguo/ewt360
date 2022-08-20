@@ -7,6 +7,7 @@
 
 ## 使用说明  
 ### progress_upload.py文件用于刷e网通假期课程进度  
+* 详细使用说明请见[www.bilibili.com/read/cv18190832](https://www.bilibili.com/read/cv18190832)
 * 使用方法：  
 #1.人工登录网站[ewt360.com](https://ewt360.com)  
 #2.按F12找到cookie选项  
