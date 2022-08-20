@@ -7,7 +7,7 @@
 #4.运行程序
 #5.等待程序运行至“---Finish---”位置
 ##提示：
-#本程序编写于2022/08/19，未来能否用未知
+#本程序编写于2022/08/20，未来能否用未知
 #若运行时报错，请根据提示自行检查
 #程序不得用作非法用途，仅供学习研究使用，非法使用产生的一切后果概不负责
 
@@ -217,7 +217,7 @@ if __name__ == "__main__":
             timestamp = math.floor(time.time())
             getsecret(timestamp)
             for i in range(0,2):
-                timestamp = math.floor(time.time())+1000000#向服务器发送一个未来的时间，以达到刷进度目的
+                timestamp = math.floor(time.time())+1000000
                 duration = timestamp-begin_time#计算持续时间
                 action=2
                 #计算签名值
@@ -228,7 +228,7 @@ if __name__ == "__main__":
                 if r==200:
                     print("day:"+str(day["day"])+",name:"+str(cls["title"])+" OK")#打印成功信息
 
-                time.sleep(1)#延时防被封
+                time.sleep(1)
     print("---Finish---")
 
     
