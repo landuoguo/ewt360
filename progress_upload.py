@@ -88,7 +88,7 @@ def getdaylist():
         "schoolId": schoolid,
         "sceneId": "75"
     }
-    Response = requests.post(url, data=json.dumps(payload),proxies={'socks5':pro},headers=header)
+    Response = requests.post(url, data=json.dumps(payload),headers=header)
     data = json.loads(Response.text)
     if data["code"]=="200":
         return data["data"]["days"]
@@ -217,10 +217,10 @@ if __name__ == "__main__":
             timestamp = math.floor(time.time())
             getsecret(timestamp)
             for i in range(0,2):
-                timestamp = math.floor(time.time())+1000000
+                timestamp = math.floor(time.time())+1000000#向服务器发送一个未来的时间，以达到刷进度目的
                 duration = timestamp-begin_time#计算持续时间
-                action=3
-                
+                action=2
+                #计算签名值
                 hmacmsg="action="+str(action)+"&duration="+str(duration)+"&mstid="+str(token)+"&signatureMethod=HMAC-SHA1&signatureVersion=1.0&timestamp="+str(timestamp)+"&version=2022-08-02"
                 signature= hmac.new(bytes(secret,encoding='utf-8'), hmacmsg.encode('utf-8'), hashlib.sha1).hexdigest()
                 
@@ -228,7 +228,7 @@ if __name__ == "__main__":
                 if r==200:
                     print("day:"+str(day["day"])+",name:"+str(cls["title"])+" OK")#打印成功信息
 
-                time.sleep(1)
+                time.sleep(1)#延时防被封
     print("---Finish---")
 
     
