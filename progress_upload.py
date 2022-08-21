@@ -7,7 +7,7 @@
 #4.运行程序
 #5.等待程序运行至“---Finish---”位置
 ##提示：
-#本程序编写于2022/08/20，未来能否用未知
+#本程序编写于2022/08/21，未来能否用未知
 #若运行时报错，请根据提示自行检查
 #程序不得用作非法用途，仅供学习研究使用，非法使用产生的一切后果概不负责
 
@@ -15,6 +15,7 @@
 import hashlib
 import hmac
 import math
+import threading
 import time
 import requests
 import json
@@ -150,7 +151,7 @@ def getsecret(timestamp):
         print(Response.text)
 
 #上传进度
-def uploadprogress(signature,lesson_id,course_id,timestamp,duration,begin_time):
+def uploadprogress(signature,lesson_id,course_id,timestamp,duration,begin_time,day,cls,i):
     url = "https://bfe.ewt360.com/monitor/web/collect/batch?_="+str(timestamp)#接口地址
     header = {
         "access-control-allow-origin": "*",
@@ -199,7 +200,7 @@ def uploadprogress(signature,lesson_id,course_id,timestamp,duration,begin_time):
     Response = requests.post(url, data=json.dumps(payload),headers=header)
     json2=json.loads(Response.text)
     if(json2["code"]==200):
-        return 200
+        print("day:"+str(day["day"])+",name:"+str(cls["title"])+" #"+str(i)+" OK")
     else:
         print("upload progress ERROR")
         print(Response.text)
@@ -211,24 +212,26 @@ if __name__ == "__main__":
     gethomeworkid()
     for day in getdaylist():
         for cls in gethomeworklist(day):
-            lesson_id=cls["contentId"]
-            course_id=cls["parentContentId"]
-            begin_time = math.floor(time.time())
-            timestamp = math.floor(time.time())
-            getsecret(timestamp)
-            for i in range(0,2):
-                timestamp = math.floor(time.time())+1000000
-                duration = timestamp-begin_time#计算持续时间
-                action=2
-                #计算签名值
-                hmacmsg="action="+str(action)+"&duration="+str(duration)+"&mstid="+str(token)+"&signatureMethod=HMAC-SHA1&signatureVersion=1.0&timestamp="+str(timestamp)+"&version=2022-08-02"
-                signature= hmac.new(bytes(secret,encoding='utf-8'), hmacmsg.encode('utf-8'), hashlib.sha1).hexdigest()
-                
-                r = uploadprogress(signature,lesson_id,course_id,timestamp,duration,begin_time)
-                if r==200:
-                    print("day:"+str(day["day"])+",name:"+str(cls["title"])+" OK")#打印成功信息
+            if cls["contentType"]==1:
+                lesson_id=cls["contentId"]
+                course_id=cls["parentContentId"]
+                timestamp = math.floor(time.time())
+                getsecret(timestamp)
+                for i in range(0,40):
+                    begin_time = math.floor(time.time())-100000
+                    timestamp = math.floor(time.time())
+                    duration = timestamp-begin_time#计算持续时间
+                    action=2
+                    #计算签名值
+                    hmacmsg="action="+str(action)+"&duration="+str(duration)+"&mstid="+str(token)+"&signatureMethod=HMAC-SHA1&signatureVersion=1.0&timestamp="+str(timestamp)+"&version=2022-08-02"
+                    signature= hmac.new(bytes(secret,encoding='utf-8'), hmacmsg.encode('utf-8'), hashlib.sha1).hexdigest()
+                    
+                    #uploadprogress(signature,lesson_id,course_id,timestamp,duration,begin_time,day,cls,i)
+                    threading.Thread(target=uploadprogress,args=(signature,lesson_id,course_id,timestamp,duration,begin_time,day,cls,i)).start()
+                    if i%10==0:time.sleep(1)
+                    time.sleep(0.1)
+                time.sleep(2)#延时
 
-                time.sleep(1)
     print("---Finish---")
 
     
