@@ -217,7 +217,7 @@ if __name__ == "__main__":
                 course_id=cls["parentContentId"]
                 timestamp = math.floor(time.time())
                 getsecret(timestamp)
-                for i in range(0,40):
+                for i in range(0,30):
                     begin_time = math.floor(time.time())-100000
                     timestamp = math.floor(time.time())
                     duration = timestamp-begin_time#计算持续时间
@@ -230,7 +230,7 @@ if __name__ == "__main__":
                     threading.Thread(target=uploadprogress,args=(signature,lesson_id,course_id,timestamp,duration,begin_time,day,cls,i)).start()
                     if i%10==0:time.sleep(1)
                     time.sleep(0.1)
-                time.sleep(2)#延时
+                time.sleep(2.5)#延时
 
     print("---Finish---")
 
