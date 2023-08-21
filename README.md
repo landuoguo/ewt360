@@ -34,6 +34,9 @@
 * 自动填写功能还未完成
 * 已经可以获取上传图片所需的aliyun-oss-sts-token，后续步骤还未完成  
 
+## ewt的修bug之路
+![](/img/bug-timeline.png)  
+
 ## 研究过程
 ![](/img/1-1.png)  
 ![](/img/1-2.png)  
